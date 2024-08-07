@@ -8,8 +8,10 @@ server.on('connection', (ws) => {
     console.log('새로운 클라이언트가 연결되었습니다.');
 
     ws.on('message', (msg) => {
-        const message = msg.toString();
-        if (message === 'grabFlag') {
+        console.log(msg.toString())
+        const message = JSON.parse(msg.toString());
+        console.log(message?.msg);
+        if (message?.msg === 'grabFlag') {
             console.log('start!');
 
             if (flagHolder) {
@@ -40,7 +42,7 @@ server.on('connection', (ws) => {
                 }
 
                 flagHolder = null; // 승자 결정 후 깃발 소유자 초기화
-            }, 5000);
+            }, message?.time * 1000);
         }
     });
 
