@@ -4,14 +4,9 @@ const server = new WebSocket.Server({ port: 8080 });
 
 let flagHolder = null; // 현재 깃발을 가진 클라이언트
 let flagTimeout = null; // 깃발 유지 시간
-
-let totalCount = 0;
-
-const addTotalCount = () => (totalCount += 1)
-const subTotalCount = () => (totalCount -= 1)
 server.on('connection', (ws) => {
     console.log('새로운 클라이언트가 연결되었습니다.');
-    addTotalCount()
+
     ws.on('message', (msg) => {
         console.log(msg.toString())
         const message = JSON.parse(msg.toString());
@@ -53,7 +48,6 @@ server.on('connection', (ws) => {
 
     ws.on('close', () => {
         console.log('클라이언트가 연결을 종료했습니다.');
-        subTotalCount();
         if (ws === flagHolder) {
             flagHolder = null; // 깃발 소유자 초기화
         }
